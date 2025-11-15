@@ -45,15 +45,23 @@ export default function CartSidebar() {
             <p className="text-gray-500 text-center mt-10">העגלה ריקה</p>
           ) : (
             cart.map((item) => (
-              <div key={item.id} className="flex items-center gap-4 border-b pb-3">
+             <div key={item.id} className="flex items-center gap-4 border-b pb-3">
                 <img
                   src={item.image_url || "/placeholder.png"}
                   alt={item.name}
                   className="w-16 h-16 object-cover rounded-lg"
                 />
+
                 <div className="flex-1">
                   <h3 className="text-green-700 font-semibold">{item.name}</h3>
+
+                  {/* מחיר יחידה */}
                   <p className="text-gray-500 text-sm">₪{item.price.toFixed(2)}</p>
+
+                  {/* ⭐ סה״כ למוצר ⭐ */}
+                  <p className="text-gray-700 font-semibold text-sm">
+                    סה״כ: ₪{(item.price * item.quantity).toFixed(2)}
+                  </p>
 
                   {/* כמות */}
                   <div className="flex items-center gap-2 mt-1">
@@ -73,14 +81,18 @@ export default function CartSidebar() {
                   </div>
                 </div>
 
-                {/* הסרה */}
-                <button
-                  onClick={() => removeFromCart(item.id)}
-                  className="text-red-600 font-bold text-lg hover:text-red-700 transition"
-                >
-                  ✕
-                </button>
-              </div>
+          {/* הסרה */}
+          <button
+            onClick={() => removeFromCart(item.id)}
+            className="text-red-600 font-bold text-lg hover:text-red-700 transition"
+          >
+            ✕
+          </button>
+</div>
+
+
+
+
             ))
           )}
         </div>
