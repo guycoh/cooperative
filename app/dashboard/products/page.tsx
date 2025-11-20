@@ -2,29 +2,23 @@
 
 import { useProducts } from "@/app/data/hooks/useProducts";
 import { useState } from "react";
-
+import type { Product } from "@/app/data/hooks/useProducts";
 import AddProductModal from "./AddProductModal"; // וודא נתיב נכון
 import EditProductModal from "./EditProductModal"; // נניח ששם הקובץ שלך
-
 
 export default function ProductsTable() {
   const { products, loading, error, deleteProduct } = useProducts();
   const [isAdding, setIsAdding] = useState(false);
-  
-  const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
+
+  // ❌ any → ✅ Product
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
-
-  const handleEditClick = (product: any) => {
-      setSelectedProduct(product);
-      setIsEditOpen(true);
-    };
-
-
-
-
-
-
+  // ❌ any → ✅ Product
+  const handleEditClick = (product: Product) => {
+    setSelectedProduct(product);
+    setIsEditOpen(true);
+  };
 
 
   return (
