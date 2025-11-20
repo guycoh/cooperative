@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
-import { createClient } from '@supabase/supabase-js'
+import { createClient, PostgrestError } from "@supabase/supabase-js";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+);
+
+type CategoryUpdateBody = {
+  name?: string;
+  description?: string | null;
+};
 
 /**
  * ✅ PUT - עדכון קטגוריה לפי מזהה
@@ -15,7 +20,7 @@ export async function PUT(
 ) {
   try {
     const { id } = params;
-    const body = await req.json();
+    const body = (await req.json()) as CategoryUpdateBody;
     const { name, description } = body;
 
     const { data, error } = await supabase
@@ -26,10 +31,11 @@ export async function PUT(
 
     if (error) throw error;
 
-    return NextResponse.json(data[0]);
-  } catch (error: any) {
-    console.error("❌ PUT error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(data?.[0] || null);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    console.error("❌ PUT error:", message);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -48,8 +54,9 @@ export async function DELETE(
     if (error) throw error;
 
     return NextResponse.json({ success: true }, { status: 200 });
-  } catch (error: any) {
-    console.error("❌ DELETE error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    console.error("❌ DELETE error:", message);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
