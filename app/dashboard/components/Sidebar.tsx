@@ -12,7 +12,7 @@ export default function Sidebar() {
     { name: "פרופיל", href: "/profile", icon: "👤" },
     { name: "קטגוריות", href: "/dashboard/categories", icon: "⚙️" },
     { name: "הגדרות", href: "/settings", icon: "⚙️" },
-   
+    { name: "ספקים פנימיים", href: "/dashboard/internalsuppliers", icon: "⚙️" },
     { name: "מוצרים", href: "/dashboard/products", icon: "📦" },
     { name: "לקוחות", href: "/clients", icon: "🧑‍🤝‍🧑" },
   ];

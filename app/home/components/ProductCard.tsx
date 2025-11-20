@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { useCart } from "@/app/context/CartContext";
 
+import { SeparateDeliveryBadge } from "@/public/svgFiles/general/SeparateDeliveryBadge";
+
+
 type ProductCardProps = {
   product: {
     id: string;
@@ -11,6 +14,7 @@ type ProductCardProps = {
     price: number;
     image_url?: string | null;
     homepage: boolean;
+    separate_delivery:boolean;
   };
 };
 
@@ -62,6 +66,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             {product.description}
           </p>
         </div>
+      
 
         {/* מחיר וכמות */}
         <div className="flex justify-between items-center mt-3">
@@ -108,9 +113,11 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
 
       {/* תגית "נבחר לדף הבית" */}
-      {product.homepage && (
-        <span className="absolute top-3 left-3 bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
-          נבחר לדף הבית
+      {product.separate_delivery && (
+        <span className="absolute top-3 left-3  text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
+       
+         <SeparateDeliveryBadge/>
+        
         </span>
       )}
     </div>

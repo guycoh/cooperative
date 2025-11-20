@@ -14,7 +14,7 @@ export default function AddProductModal({ isOpen, onClose }: Props) {
   const { addProduct } = useProducts();
 
   const [formData, setFormData] = useState({
-    cooperative_id: "a1c1e9ab-2336-4ed0-8a88-161cced818c7",
+   
     name: "",
     description: "",
     price: "",
@@ -25,6 +25,7 @@ export default function AddProductModal({ isOpen, onClose }: Props) {
     supplier: "",
     is_local_supplier: false,
     separate_delivery: false,
+
   });
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -235,46 +236,46 @@ const handleSubmit = async (e: React.FormEvent) => {
                 />
               </div>
             </div>
-{/* צ'קבוקסים */}
-<div className="flex flex-wrap gap-6 mt-6 justify-between">
+              {/* צ'קבוקסים */}
+              <div className="flex flex-wrap gap-6 mt-6 justify-between">
 
-  {/* הצג בדף הבית */}
-  <label className="flex items-center gap-2 text-gray-700 cursor-pointer">
-    <input
-      type="checkbox"
-      name="homepage"
-      checked={formData.homepage}
-      onChange={handleChange}
-      className="w-6 h-6 accent-blue-600 cursor-pointer"
-    />
-    הצג בדף הבית
-  </label>
+                {/* הצג בדף הבית */}
+                <label className="flex items-center gap-2 text-gray-700 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="homepage"
+                    checked={formData.homepage}
+                    onChange={handleChange}
+                    className="w-6 h-6 accent-blue-600 cursor-pointer"
+                  />
+                  הצג בדף הבית
+                </label>
 
-  {/* ספק מקומי – ירוק מיוחד */}
-  <label className="flex items-center gap-2 text-gray-700 cursor-pointer">
-    <input
-      type="checkbox"
-      name="is_local_supplier"
-      checked={formData.is_local_supplier}
-      onChange={handleChange}
-      className="w-7 h-7 accent-[#1ebe6f] cursor-pointer"
-    />
-    ספק מקומי
-  </label>
+                {/* ספק מקומי – ירוק מיוחד */}
+                <label className="flex items-center gap-2 text-gray-700 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="is_local_supplier"
+                    checked={formData.is_local_supplier}
+                    onChange={handleChange}
+                    className="w-7 h-7 accent-[#1ebe6f] cursor-pointer"
+                  />
+                  ספק מקומי
+                </label>
 
-  {/* משלוח נפרד – סגול */}
-  <label className="flex items-center gap-2 text-gray-700 cursor-pointer">
-    <input
-      type="checkbox"
-      name="separate_delivery"
-      checked={formData.separate_delivery}
-      onChange={handleChange}
-      className="w-7 h-7 accent-purple-600 cursor-pointer"
-    />
-    משלוח נפרד
-  </label>
+                {/* משלוח נפרד – סגול */}
+                <label className="flex items-center gap-2 text-gray-700 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="separate_delivery"
+                    checked={formData.separate_delivery}
+                    onChange={handleChange}
+                    className="w-7 h-7 accent-purple-600 cursor-pointer"
+                  />
+                  משלוח נפרד
+                </label>
 
-</div>
+              </div>
 
 
             {/* פוטר עם כפתורים בתוך form */}
@@ -283,7 +284,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 type="button"
                 onClick={() =>
                   setFormData({
-                    cooperative_id: "a1c1e9ab-2336-4ed0-8a88-161cced818c7",
+                 
                     name: "",
                     price: "",
                     stock: "",
@@ -313,8 +314,6 @@ const handleSubmit = async (e: React.FormEvent) => {
         </div>
       </div>
     </div>
-
-
 
   );
 }
