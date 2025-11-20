@@ -1,6 +1,6 @@
 //data/hooks/useExternalSuppliers
 
-"use client"
+"use client";
 
 import { useState, useEffect, useCallback } from "react";
 
@@ -14,6 +14,31 @@ export type ExternalSupplier = {
   delivery_to?: string;
 };
 
+/** טיפוס לתשובות API */
+type SupplierListResponse = {
+  data: ExternalSupplier[];
+  total: number;
+  totalPages: number;
+  page: number;
+  limit: number;
+  error?: string;
+};
+
+type SupplierItemResponse = {
+  data: ExternalSupplier;
+  error?: string;
+};
+
+type CreateUpdateResponse = {
+  data: ExternalSupplier;
+  error?: string;
+};
+
+type DeleteResponse = {
+  success: boolean;
+  error?: string;
+};
+
 export function useExternalSuppliers(initialLimit = 25) {
   const [data, setData] = useState<ExternalSupplier[]>([]);
   const [page, setPage] = useState(1);
@@ -23,25 +48,34 @@ export function useExternalSuppliers(initialLimit = 25) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchData = useCallback(async (p = page, l = limit) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch(`/api/external_suppliers?page=${p}&limit=${l}`);
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error || "Failed to fetch suppliers");
-      setData(json.data);
-      setTotal(json.total);
-      setTotalPages(json.totalPages);
-      setPage(json.page);
-      setLimit(json.limit);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }, [page, limit]);
+  /** --- Fetch list --- */
+  const fetchData = useCallback(
+    async (p = page, l = limit) => {
+      setLoading(true);
+      setError(null);
 
+      try {
+        const res = await fetch(`/api/external_suppliers?page=${p}&limit=${l}`);
+        const json: SupplierListResponse = await res.json();
+
+        if (!res.ok) throw new Error(json.error || "Failed to fetch suppliers");
+
+        setData(json.data);
+        setTotal(json.total);
+        setTotalPages(json.totalPages);
+        setPage(json.page);
+        setLimit(json.limit);
+      } catch (err) {
+        const e = err as Error;
+        setError(e.message);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [page, limit]
+  );
+
+  /** load first page */
   useEffect(() => {
     fetchData();
   }, [fetchData]);
@@ -52,75 +86,105 @@ export function useExternalSuppliers(initialLimit = 25) {
     fetchData(p, limit);
   };
 
-  const getOne = async (id: string) => {
+  /** --- Get One Supplier --- */
+  const getOne = async (id: string): Promise<SupplierItemResponse | null> => {
     setLoading(true);
     setError(null);
+
     try {
       const res = await fetch(`/api/external_suppliers/${id}`);
-      const json = await res.json();
+      const json: SupplierItemResponse = await res.json();
+
       if (!res.ok) throw new Error(json.error || "Failed to fetch supplier");
+
       return json;
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const e = err as Error;
+      setError(e.message);
       return null;
     } finally {
       setLoading(false);
     }
   };
 
-  const create = async (supplier: Omit<ExternalSupplier, "id">) => {
+  /** --- Create Supplier --- */
+  const create = async (
+    supplier: Omit<ExternalSupplier, "id">
+  ): Promise<CreateUpdateResponse | null> => {
     setLoading(true);
     setError(null);
+
     try {
       const res = await fetch(`/api/external_suppliers`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(supplier),
       });
-      const json = await res.json();
+
+      const json: CreateUpdateResponse = await res.json();
       if (!res.ok) throw new Error(json.error || "Failed to create supplier");
-      fetchData(); // רענון אחרי יצירה
+
+      fetchData();
+
       return json;
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const e = err as Error;
+      setError(e.message);
       return null;
     } finally {
       setLoading(false);
     }
   };
 
-  const update = async (id: string, supplier: Partial<ExternalSupplier>) => {
+  /** --- Update Supplier --- */
+  const update = async (
+    id: string,
+    supplier: Partial<ExternalSupplier>
+  ): Promise<CreateUpdateResponse | null> => {
     setLoading(true);
     setError(null);
+
     try {
       const res = await fetch(`/api/external_suppliers/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(supplier),
       });
-      const json = await res.json();
+
+      const json: CreateUpdateResponse = await res.json();
       if (!res.ok) throw new Error(json.error || "Failed to update supplier");
-      fetchData(); // רענון אחרי עדכון
+
+      fetchData();
+
       return json;
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const e = err as Error;
+      setError(e.message);
       return null;
     } finally {
       setLoading(false);
     }
   };
 
-  const remove = async (id: string) => {
+  /** --- Delete Supplier --- */
+  const remove = async (id: string): Promise<boolean> => {
     setLoading(true);
     setError(null);
+
     try {
-      const res = await fetch(`/api/external_suppliers/${id}`, { method: "DELETE" });
-      const json = await res.json();
+      const res = await fetch(`/api/external_suppliers/${id}`, {
+        method: "DELETE",
+      });
+
+      const json: DeleteResponse = await res.json();
       if (!res.ok) throw new Error(json.error || "Failed to delete supplier");
-      fetchData(); // רענון אחרי מחיקה
+
+      fetchData();
+
       return json.success;
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const e = err as Error;
+      setError(e.message);
       return false;
     } finally {
       setLoading(false);

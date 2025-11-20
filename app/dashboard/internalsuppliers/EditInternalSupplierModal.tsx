@@ -1,12 +1,22 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
+
+export type InternalSupplier = {
+  id: string;
+  name: string;
+  phone: string;
+  address: string;
+  notes?: string;
+  is_local_supplier?: boolean;
+  separate_delivery?: boolean;
+};
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  supplier: any | null;
-  onSave: (id: string, updatedData: any) => void;
+  supplier: InternalSupplier | null;
+  onSave: (id: string, updatedData: Partial<InternalSupplier>) => void;
 };
 
 export default function EditInternalSupplierModal({
@@ -21,7 +31,7 @@ export default function EditInternalSupplierModal({
     address: "",
   });
 
-  // ממלא נתונים בעת פתיחה
+  // מילוי נתונים כשפותחים את המודל
   useEffect(() => {
     if (supplier) {
       setForm({
@@ -32,7 +42,14 @@ export default function EditInternalSupplierModal({
     }
   }, [supplier]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !supplier) return null;
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   const saveHandler = () => {
     onSave(supplier.id, form);

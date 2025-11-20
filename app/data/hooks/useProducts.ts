@@ -1,6 +1,6 @@
 //data/hooks/useProducts
 
-"use client"
+"use client";
 
 import { useState, useEffect } from "react";
 
@@ -24,22 +24,21 @@ export function useProducts() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // --- שליפת כל המוצרים ---
   const fetchProducts = async () => {
     try {
       setLoading(true);
       const res = await fetch("/api/products");
       if (!res.ok) throw new Error("שגיאה בשליפת מוצרים");
-      const data = await res.json();
+      const data: Product[] = await res.json();
       setProducts(data);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const e = err instanceof Error ? err : new Error(String(err));
+      setError(e.message);
     } finally {
       setLoading(false);
     }
   };
 
-  // --- הוספת מוצר ---
   const addProduct = async (product: Partial<Product>) => {
     try {
       setLoading(true);
@@ -49,18 +48,18 @@ export function useProducts() {
         body: JSON.stringify(product),
       });
       if (!res.ok) throw new Error("שגיאה בהוספת מוצר");
-      const data = await res.json();
+      const data: Product = await res.json();
       setProducts((prev) => [...prev, data]);
       return data;
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const e = err instanceof Error ? err : new Error(String(err));
+      setError(e.message);
       return null;
     } finally {
       setLoading(false);
     }
   };
 
-  // --- עדכון מוצר ---
   const updateProduct = async (id: string, updates: Partial<Product>) => {
     try {
       setLoading(true);
@@ -70,39 +69,35 @@ export function useProducts() {
         body: JSON.stringify(updates),
       });
       if (!res.ok) throw new Error("שגיאה בעדכון מוצר");
-      const data = await res.json();
+      const data: Partial<Product> = await res.json();
       setProducts((prev) =>
         prev.map((p) => (p.id === id ? { ...p, ...data } : p))
       );
       return data;
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const e = err instanceof Error ? err : new Error(String(err));
+      setError(e.message);
       return null;
     } finally {
       setLoading(false);
     }
   };
 
-  // --- מחיקת מוצר ---
   const deleteProduct = async (id: string) => {
     try {
       setLoading(true);
       const res = await fetch(`/api/products/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("שגיאה במחיקת מוצר");
       setProducts((prev) => prev.filter((p) => p.id !== id));
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const e = err instanceof Error ? err : new Error(String(err));
+      setError(e.message);
     } finally {
       setLoading(false);
     }
   };
 
- // --- מוצרים לדף הבית בלבד ---
-  const getHomepageProducts = () => {
-    return products.filter((p) => p.homepage);
-  };
-
-
+  const getHomepageProducts = () => products.filter((p) => p.homepage);
 
   useEffect(() => {
     fetchProducts();
@@ -116,7 +111,6 @@ export function useProducts() {
     addProduct,
     updateProduct,
     deleteProduct,
-   getHomepageProducts, // ✅ פונקציה חדשה
-
+    getHomepageProducts,
   };
 }

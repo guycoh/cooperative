@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useCart } from "@/app/context/CartContext";
 
 export default function CartSidebar() {
@@ -45,12 +46,15 @@ export default function CartSidebar() {
             <p className="text-gray-500 text-center mt-10">העגלה ריקה</p>
           ) : (
             cart.map((item) => (
-             <div key={item.id} className="flex items-center gap-4 border-b pb-3">
-                <img
-                  src={item.image_url || "/placeholder.png"}
-                  alt={item.name}
-                  className="w-16 h-16 object-cover rounded-lg"
-                />
+              <div key={item.id} className="flex items-center gap-4 border-b pb-3">
+                <div className="relative w-16 h-16 flex-shrink-0">
+                  <Image
+                    src={item.image_url || "/placeholder.png"}
+                    alt={item.name}
+                    fill
+                    className="object-cover rounded-lg"
+                  />
+                </div>
 
                 <div className="flex-1">
                   <h3 className="text-green-700 font-semibold">{item.name}</h3>
@@ -58,9 +62,9 @@ export default function CartSidebar() {
                   {/* מחיר יחידה */}
                   <p className="text-gray-500 text-sm">₪{item.price.toFixed(2)}</p>
 
-                  {/* ⭐ סה״כ למוצר ⭐ */}
+                  {/* סה״כ למוצר */}
                   <p className="text-gray-700 font-semibold text-sm">
-                    סה״כ: ₪{(item.price * item.quantity).toFixed(2)}
+                    סה&quot;כ: ₪{(item.price * item.quantity).toFixed(2)}
                   </p>
 
                   {/* כמות */}
@@ -81,18 +85,14 @@ export default function CartSidebar() {
                   </div>
                 </div>
 
-          {/* הסרה */}
-          <button
-            onClick={() => removeFromCart(item.id)}
-            className="text-red-600 font-bold text-lg hover:text-red-700 transition"
-          >
-            ✕
-          </button>
-</div>
-
-
-
-
+                {/* הסרה */}
+                <button
+                  onClick={() => removeFromCart(item.id)}
+                  className="text-red-600 font-bold text-lg hover:text-red-700 transition"
+                >
+                  ✕
+                </button>
+              </div>
             ))
           )}
         </div>
@@ -101,7 +101,7 @@ export default function CartSidebar() {
         {cart.length > 0 && (
           <div className="p-4 border-t flex flex-col gap-3">
             <div className="flex justify-between font-semibold text-gray-800">
-              <span>סה"כ:</span>
+              <span>סה&quot;כ:</span>
               <span>₪{total.toFixed(2)}</span>
             </div>
             <button
@@ -119,4 +119,3 @@ export default function CartSidebar() {
     </>
   );
 }
-

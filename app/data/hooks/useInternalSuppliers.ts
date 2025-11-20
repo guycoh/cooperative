@@ -9,6 +9,31 @@ export type InternalSupplier = {
   phone?: string;
 };
 
+/** טיפוסי API Responses */
+type SupplierListResponse = {
+  data: InternalSupplier[];
+  total: number;
+  totalPages: number;
+  page: number;
+  limit: number;
+  error?: string;
+};
+
+type SupplierItemResponse = {
+  data: InternalSupplier;
+  error?: string;
+};
+
+type CreateUpdateResponse = {
+  data: InternalSupplier;
+  error?: string;
+};
+
+type DeleteResponse = {
+  success: boolean;
+  error?: string;
+};
+
 export function useInternalSuppliers(initialLimit = 25) {
   const [data, setData] = useState<InternalSupplier[]>([]);
   const [page, setPage] = useState(1);
@@ -18,24 +43,32 @@ export function useInternalSuppliers(initialLimit = 25) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchData = useCallback(async (p = page, l = limit) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch(`/api/internal_suppliers?page=${p}&limit=${l}`);
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error || "Failed to fetch suppliers");
-      setData(json.data);
-      setTotal(json.total);
-      setTotalPages(json.totalPages);
-      setPage(json.page);
-      setLimit(json.limit);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }, [page, limit]);
+  /** --- Fetch List --- */
+  const fetchData = useCallback(
+    async (p = page, l = limit) => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const res = await fetch(`/api/internal_suppliers?page=${p}&limit=${l}`);
+        const json: SupplierListResponse = await res.json();
+
+        if (!res.ok) throw new Error(json.error || "Failed to fetch suppliers");
+
+        setData(json.data);
+        setTotal(json.total);
+        setTotalPages(json.totalPages);
+        setPage(json.page);
+        setLimit(json.limit);
+      } catch (err) {
+        const e = err as Error;
+        setError(e.message);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [page, limit]
+  );
 
   useEffect(() => {
     fetchData();
@@ -47,75 +80,99 @@ export function useInternalSuppliers(initialLimit = 25) {
     fetchData(p, limit);
   };
 
-  const getOne = async (id: string) => {
+  /** --- Get One Supplier --- */
+  const getOne = async (id: string): Promise<SupplierItemResponse | null> => {
     setLoading(true);
     setError(null);
+
     try {
       const res = await fetch(`/api/internal_suppliers/${id}`);
-      const json = await res.json();
+      const json: SupplierItemResponse = await res.json();
+
       if (!res.ok) throw new Error(json.error || "Failed to fetch supplier");
+
       return json;
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const e = err as Error;
+      setError(e.message);
       return null;
     } finally {
       setLoading(false);
     }
   };
 
-  const create = async (supplier: Omit<InternalSupplier, "id">) => {
+  /** --- Create Supplier --- */
+  const create = async (
+    supplier: Omit<InternalSupplier, "id">
+  ): Promise<CreateUpdateResponse | null> => {
     setLoading(true);
     setError(null);
+
     try {
       const res = await fetch(`/api/internal_suppliers`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(supplier),
       });
-      const json = await res.json();
+
+      const json: CreateUpdateResponse = await res.json();
       if (!res.ok) throw new Error(json.error || "Failed to create supplier");
-      fetchData(); // רענון אחרי יצירה
+
+      fetchData();
       return json;
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const e = err as Error;
+      setError(e.message);
       return null;
     } finally {
       setLoading(false);
     }
   };
 
-  const update = async (id: string, supplier: Partial<InternalSupplier>) => {
+  /** --- Update Supplier --- */
+  const update = async (
+    id: string,
+    supplier: Partial<InternalSupplier>
+  ): Promise<CreateUpdateResponse | null> => {
     setLoading(true);
     setError(null);
+
     try {
       const res = await fetch(`/api/internal_suppliers/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(supplier),
       });
-      const json = await res.json();
+
+      const json: CreateUpdateResponse = await res.json();
       if (!res.ok) throw new Error(json.error || "Failed to update supplier");
-      fetchData(); // רענון אחרי עדכון
+
+      fetchData();
       return json;
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const e = err as Error;
+      setError(e.message);
       return null;
     } finally {
       setLoading(false);
     }
   };
 
-  const remove = async (id: string) => {
+  /** --- Delete Supplier --- */
+  const remove = async (id: string): Promise<boolean> => {
     setLoading(true);
     setError(null);
+
     try {
       const res = await fetch(`/api/internal_suppliers/${id}`, { method: "DELETE" });
-      const json = await res.json();
+      const json: DeleteResponse = await res.json();
       if (!res.ok) throw new Error(json.error || "Failed to delete supplier");
-      fetchData(); // רענון אחרי מחיקה
+
+      fetchData();
       return json.success;
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      const e = err as Error;
+      setError(e.message);
       return false;
     } finally {
       setLoading(false);

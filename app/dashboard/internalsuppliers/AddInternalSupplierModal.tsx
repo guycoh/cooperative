@@ -1,17 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
+
+export type InternalSupplierInput = {
+  name: string;
+  phone: string;
+  address: string;
+  notes: string;
+  is_local_supplier: boolean;
+  separate_delivery: boolean;
+};
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: any) => Promise<void>; // פונקציה שאתה מספק מבחוץ
+  onSubmit: (data: InternalSupplierInput) => Promise<void>;
 };
 
 export default function AddInternalSupplierModal({ isOpen, onClose, onSubmit }: Props) {
   const [loading, setLoading] = useState(false);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<InternalSupplierInput>({
     name: "",
     phone: "",
     address: "",
@@ -20,8 +29,9 @@ export default function AddInternalSupplierModal({ isOpen, onClose, onSubmit }: 
     separate_delivery: false,
   });
 
-  const handleChange = (e: any) => {
-    const { name, value, type, checked } = e.target;
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
 
     setFormData((prev) => ({
       ...prev,
@@ -29,7 +39,7 @@ export default function AddInternalSupplierModal({ isOpen, onClose, onSubmit }: 
     }));
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       setLoading(true);
@@ -40,6 +50,8 @@ export default function AddInternalSupplierModal({ isOpen, onClose, onSubmit }: 
     }
   };
 
+
+  
   return (
     <div
       className={`fixed inset-0 bg-black/30 z-50 transition-opacity duration-300 ${
