@@ -29,16 +29,23 @@ export default function AddInternalSupplierModal({ isOpen, onClose, onSubmit }: 
     separate_delivery: false,
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  /** ✅ ללא ANY — טיפוס מלא */
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value, type } = e.target;
-    const checked = (e.target as HTMLInputElement).checked;
+
+    // checkbox צריך לקרוא checked רק אם זה input מסוג checkbox
+    const isCheckbox = type === "checkbox";
+    const checked = isCheckbox ? (e.target as HTMLInputElement).checked : undefined;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: isCheckbox ? checked : value,
     }));
   };
 
+  /** ✅ ללא ANY — טיפוס מלא */
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -50,8 +57,6 @@ export default function AddInternalSupplierModal({ isOpen, onClose, onSubmit }: 
     }
   };
 
-
-  
   return (
     <div
       className={`fixed inset-0 bg-black/30 z-50 transition-opacity duration-300 ${
@@ -64,7 +69,7 @@ export default function AddInternalSupplierModal({ isOpen, onClose, onSubmit }: 
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        {/* Header ירוק */}
+        {/* Header */}
         <div className="bg-green-600 text-white p-4 flex justify-between items-center rounded-t-xl">
           <h2 className="text-xl font-semibold">הוספת ספק פנימי</h2>
 
@@ -86,10 +91,9 @@ export default function AddInternalSupplierModal({ isOpen, onClose, onSubmit }: 
           </button>
         </div>
 
-        {/* Form Content */}
+        {/* Form */}
         <div className="flex-1 overflow-y-auto p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
-
             {/* שם ספק */}
             <div>
               <label className="block text-gray-700 font-semibold mb-1">שם ספק</label>
@@ -143,8 +147,6 @@ export default function AddInternalSupplierModal({ isOpen, onClose, onSubmit }: 
 
             {/* צ'קבוקסים */}
             <div className="flex flex-wrap gap-6 mt-6 justify-between">
-
-              {/* ספק מקומי */}
               <label className="flex items-center gap-2 text-gray-700 cursor-pointer">
                 <input
                   type="checkbox"
@@ -156,7 +158,6 @@ export default function AddInternalSupplierModal({ isOpen, onClose, onSubmit }: 
                 ספק מקומי
               </label>
 
-              {/* אספקה נפרדת */}
               <label className="flex items-center gap-2 text-gray-700 cursor-pointer">
                 <input
                   type="checkbox"
@@ -167,7 +168,6 @@ export default function AddInternalSupplierModal({ isOpen, onClose, onSubmit }: 
                 />
                 אספקה נפרדת
               </label>
-
             </div>
 
             {/* פוטר */}
@@ -197,7 +197,6 @@ export default function AddInternalSupplierModal({ isOpen, onClose, onSubmit }: 
                 {loading ? "שומר..." : "שמור ספק"}
               </button>
             </div>
-
           </form>
         </div>
       </div>
