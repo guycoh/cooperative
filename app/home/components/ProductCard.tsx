@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useCart } from "@/app/context/CartContext";
-
+import Image from "next/image";
 import { SeparateDeliveryBadge } from "@/public/svgFiles/general/SeparateDeliveryBadge";
 
 
@@ -44,11 +44,24 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* תמונה */}
       {product.image_url ? (
         <div className="w-full h-56 relative">
-          <img
-            src={product.image_url || "/placeholder.png"}
-            alt={product.name}
-            className="w-full h-full object-cover rounded-lg shadow-md"
-          />
+         
+<Image
+ src={product.image_url}
+  alt={product.name}
+  width={500}
+  height={500}
+  className="w-full h-full object-cover"
+/>
+
+
+
+
+
+
+
+
+
+          
         </div>
       ) : (
         <div className="w-full h-56 bg-gray-100 flex items-center justify-center text-gray-400">

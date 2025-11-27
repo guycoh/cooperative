@@ -18,7 +18,8 @@ type Props = {
 };
 
 export default function AddInternalSupplierModal({ isOpen, onClose, onSubmit }: Props) {
-  const [loading, setLoading] = useState(false);
+ const [loading, setLoading] = useState<boolean>(false);
+
 
   const [formData, setFormData] = useState<InternalSupplierInput>({
     name: "",
@@ -30,23 +31,23 @@ export default function AddInternalSupplierModal({ isOpen, onClose, onSubmit }: 
   });
 
   /** ✅ ללא ANY — טיפוס מלא */
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value, type } = e.target;
+ const handleChange = (
+  e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+) => {
+  const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+  const { name, value, type } = target;
 
-    // checkbox צריך לקרוא checked רק אם זה input מסוג checkbox
-    const isCheckbox = type === "checkbox";
-    const checked = isCheckbox ? (e.target as HTMLInputElement).checked : undefined;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: isCheckbox ? checked : value,
-    }));
-  };
+  setFormData((prev) => ({
+    ...prev,
+    [name]: type === "checkbox"
+      ? (target as HTMLInputElement).checked
+      : value,
+  }));
+};
 
   /** ✅ ללא ANY — טיפוס מלא */
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+ const handleSubmit: (e: FormEvent<HTMLFormElement>) => Promise<void> =
+  async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
@@ -56,6 +57,7 @@ export default function AddInternalSupplierModal({ isOpen, onClose, onSubmit }: 
       setLoading(false);
     }
   };
+
 
   return (
     <div

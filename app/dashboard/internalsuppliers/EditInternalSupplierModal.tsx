@@ -12,6 +12,21 @@ export type InternalSupplier = {
   separate_delivery?: boolean;
 };
 
+type EditSupplierForm = {
+  name: string;
+  phone: string;
+  address: string;
+};
+
+
+
+
+
+
+
+
+
+
 type Props = {
   isOpen: boolean;
   onClose: () => void;
@@ -25,11 +40,14 @@ export default function EditInternalSupplierModal({
   supplier,
   onSave,
 }: Props) {
-  const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    address: "",
-  });
+ 
+const [form, setForm] = useState<EditSupplierForm>({
+  name: "",
+  phone: "",
+  address: "",
+});
+
+
 
   // מילוי נתונים כשפותחים את המודל
   useEffect(() => {

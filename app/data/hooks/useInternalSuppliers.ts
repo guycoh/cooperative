@@ -60,8 +60,8 @@ export function useInternalSuppliers(initialLimit = 25) {
         setTotalPages(json.totalPages);
         setPage(json.page);
         setLimit(json.limit);
-      } catch (err) {
-        const e = err as Error;
+      } catch (err: unknown) {
+        const e = err instanceof Error ? err : new Error("Unknown error");
         setError(e.message);
       } finally {
         setLoading(false);
@@ -92,8 +92,8 @@ export function useInternalSuppliers(initialLimit = 25) {
       if (!res.ok) throw new Error(json.error || "Failed to fetch supplier");
 
       return json;
-    } catch (err) {
-      const e = err as Error;
+    } catch (err: unknown) {
+      const e = err instanceof Error ? err : new Error("Unknown error");
       setError(e.message);
       return null;
     } finally {
@@ -120,8 +120,8 @@ export function useInternalSuppliers(initialLimit = 25) {
 
       fetchData();
       return json;
-    } catch (err) {
-      const e = err as Error;
+    } catch (err: unknown) {
+      const e = err instanceof Error ? err : new Error("Unknown error");
       setError(e.message);
       return null;
     } finally {
@@ -149,8 +149,8 @@ export function useInternalSuppliers(initialLimit = 25) {
 
       fetchData();
       return json;
-    } catch (err) {
-      const e = err as Error;
+    } catch (err: unknown) {
+      const e = err instanceof Error ? err : new Error("Unknown error");
       setError(e.message);
       return null;
     } finally {
@@ -164,14 +164,17 @@ export function useInternalSuppliers(initialLimit = 25) {
     setError(null);
 
     try {
-      const res = await fetch(`/api/internal_suppliers/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/internal_suppliers/${id}`, {
+        method: "DELETE",
+      });
+
       const json: DeleteResponse = await res.json();
       if (!res.ok) throw new Error(json.error || "Failed to delete supplier");
 
       fetchData();
       return json.success;
-    } catch (err) {
-      const e = err as Error;
+    } catch (err: unknown) {
+      const e = err instanceof Error ? err : new Error("Unknown error");
       setError(e.message);
       return false;
     } finally {

@@ -1,6 +1,6 @@
 //data/hooks/useExternalSuppliers
 
-"use client";
+"use client"
 
 import { useState, useEffect, useCallback } from "react";
 
@@ -39,6 +39,12 @@ type DeleteResponse = {
   error?: string;
 };
 
+/** 🛡 פונקציית עזר חסינת ANY */
+const handleError = (err: unknown): string => {
+  if (err instanceof Error) return err.message;
+  return "Unknown error";
+};
+
 export function useExternalSuppliers(initialLimit = 25) {
   const [data, setData] = useState<ExternalSupplier[]>([]);
   const [page, setPage] = useState(1);
@@ -65,9 +71,8 @@ export function useExternalSuppliers(initialLimit = 25) {
         setTotalPages(json.totalPages);
         setPage(json.page);
         setLimit(json.limit);
-      } catch (err) {
-        const e = err as Error;
-        setError(e.message);
+      } catch (err: unknown) {
+        setError(handleError(err));
       } finally {
         setLoading(false);
       }
@@ -98,9 +103,8 @@ export function useExternalSuppliers(initialLimit = 25) {
       if (!res.ok) throw new Error(json.error || "Failed to fetch supplier");
 
       return json;
-    } catch (err) {
-      const e = err as Error;
-      setError(e.message);
+    } catch (err: unknown) {
+      setError(handleError(err));
       return null;
     } finally {
       setLoading(false);
@@ -127,9 +131,8 @@ export function useExternalSuppliers(initialLimit = 25) {
       fetchData();
 
       return json;
-    } catch (err) {
-      const e = err as Error;
-      setError(e.message);
+    } catch (err: unknown) {
+      setError(handleError(err));
       return null;
     } finally {
       setLoading(false);
@@ -157,9 +160,8 @@ export function useExternalSuppliers(initialLimit = 25) {
       fetchData();
 
       return json;
-    } catch (err) {
-      const e = err as Error;
-      setError(e.message);
+    } catch (err: unknown) {
+      setError(handleError(err));
       return null;
     } finally {
       setLoading(false);
@@ -182,9 +184,8 @@ export function useExternalSuppliers(initialLimit = 25) {
       fetchData();
 
       return json.success;
-    } catch (err) {
-      const e = err as Error;
-      setError(e.message);
+    } catch (err: unknown) {
+      setError(handleError(err));
       return false;
     } finally {
       setLoading(false);
