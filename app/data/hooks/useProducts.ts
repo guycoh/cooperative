@@ -1,6 +1,6 @@
 //data/hooks/useProducts
 
-"use client";
+"use client"
 
 import { useState, useEffect } from "react";
 
@@ -29,10 +29,11 @@ export function useProducts() {
       setLoading(true);
       const res = await fetch("/api/products");
       if (!res.ok) throw new Error("שגיאה בשליפת מוצרים");
+
       const data: Product[] = await res.json();
       setProducts(data);
-    } catch (err) {
-      const e = err instanceof Error ? err : new Error(String(err));
+    } catch (err: unknown) {
+      const e = err instanceof Error ? err : new Error("Unknown error");
       setError(e.message);
     } finally {
       setLoading(false);
@@ -47,12 +48,14 @@ export function useProducts() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(product),
       });
+
       if (!res.ok) throw new Error("שגיאה בהוספת מוצר");
+
       const data: Product = await res.json();
       setProducts((prev) => [...prev, data]);
       return data;
-    } catch (err) {
-      const e = err instanceof Error ? err : new Error(String(err));
+    } catch (err: unknown) {
+      const e = err instanceof Error ? err : new Error("Unknown error");
       setError(e.message);
       return null;
     } finally {
@@ -63,19 +66,24 @@ export function useProducts() {
   const updateProduct = async (id: string, updates: Partial<Product>) => {
     try {
       setLoading(true);
+
       const res = await fetch(`/api/products/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updates),
       });
+
       if (!res.ok) throw new Error("שגיאה בעדכון מוצר");
+
       const data: Partial<Product> = await res.json();
+
       setProducts((prev) =>
         prev.map((p) => (p.id === id ? { ...p, ...data } : p))
       );
+
       return data;
-    } catch (err) {
-      const e = err instanceof Error ? err : new Error(String(err));
+    } catch (err: unknown) {
+      const e = err instanceof Error ? err : new Error("Unknown error");
       setError(e.message);
       return null;
     } finally {
@@ -86,11 +94,13 @@ export function useProducts() {
   const deleteProduct = async (id: string) => {
     try {
       setLoading(true);
+
       const res = await fetch(`/api/products/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("שגיאה במחיקת מוצר");
+
       setProducts((prev) => prev.filter((p) => p.id !== id));
-    } catch (err) {
-      const e = err instanceof Error ? err : new Error(String(err));
+    } catch (err: unknown) {
+      const e = err instanceof Error ? err : new Error("Unknown error");
       setError(e.message);
     } finally {
       setLoading(false);
