@@ -1,20 +1,28 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+// יוצרים קליינט בכל בקשה (Best Practice ב-Next.js route handlers)
+function supabaseClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+}
 
-// 📌 GET – ספק חיצוני בודד
+/* ------------------------------------- */
+/*                GET                    */
+/* ------------------------------------- */
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
+  const supabase = supabaseClient();
+
   const { data, error } = await supabase
     .from("aa_external_suppliers")
     .select("*")
-    .eq("id", params.id)
+    .eq("id", id)
     .single();
 
   if (error) {
@@ -25,12 +33,17 @@ export async function GET(
   return NextResponse.json(data, { status: 200 });
 }
 
-// 📌 PUT – עדכון ספק חיצוני
+/* ------------------------------------- */
+/*                PUT                    */
+/* ------------------------------------- */
 export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
-  const body = await req.json();
+  const { id } = await context.params;
+  const supabase = supabaseClient();
+
+  const body = await request.json();
   const {
     name,
     phone,
@@ -50,7 +63,7 @@ export async function PUT(
       delivery_from,
       delivery_to,
     })
-    .eq("id", params.id)
+    .eq("id", id)
     .select();
 
   if (error) {
@@ -58,18 +71,23 @@ export async function PUT(
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json(data[0], { status: 200 });
+  return NextResponse.json(data?.[0] ?? null, { status: 200 });
 }
 
-// 📌 DELETE – מחיקת ספק חיצוני
+/* ------------------------------------- */
+/*              DELETE                   */
+/* ------------------------------------- */
 export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await context.params;
+  const supabase = supabaseClient();
+
   const { error } = await supabase
     .from("aa_external_suppliers")
     .delete()
-    .eq("id", params.id);
+    .eq("id", id);
 
   if (error) {
     console.error("❌ Error deleting external supplier:", error.message);
