@@ -2,15 +2,6 @@
 
 import { useState, useEffect, ChangeEvent } from "react";
 
-export type InternalSupplier = {
-  id: string;
-  name: string;
-  phone: string;
-  address: string;
-  notes?: string;
-  is_local_supplier?: boolean;
-  separate_delivery?: boolean;
-};
 
 type EditSupplierForm = {
   name: string;
@@ -18,13 +9,15 @@ type EditSupplierForm = {
   address: string;
 };
 
-
-
-
-
-
-
-
+type InternalSupplier = {
+  id: string;
+  name: string;
+  phone?: string;        // <-- ככה צריך להיות
+  address?: string;
+  notes?: string;
+  is_local_supplier: boolean;
+  separate_delivery: boolean;
+};
 
 
 type Props = {
