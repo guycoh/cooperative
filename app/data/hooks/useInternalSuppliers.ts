@@ -1,13 +1,25 @@
-"use client";
+//data/hooks/useInternalSuppliers.ts
+
+"use client"
 
 import { useState, useEffect, useCallback } from "react";
 
 export type InternalSupplier = {
   id: string;
   name: string;
-  address?: string;
   phone?: string;
+  address?: string;
+  notes?: string;
+  is_local_supplier: boolean;
+  separate_delivery: boolean;
 };
+
+
+
+
+
+
+
 
 /** טיפוסי API Responses */
 type SupplierListResponse = {

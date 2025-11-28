@@ -1,22 +1,14 @@
-"use client";
+
+
+"use client"
 
 import { useState, useEffect, ChangeEvent } from "react";
-
+import type { InternalSupplier } from "@/app/data/hooks/useInternalSuppliers";
 
 type EditSupplierForm = {
   name: string;
   phone: string;
   address: string;
-};
-
-type InternalSupplier = {
-  id: string;
-  name: string;
-  phone?: string;        // <-- ככה צריך להיות
-  address?: string;
-  notes?: string;
-  is_local_supplier: boolean;
-  separate_delivery: boolean;
 };
 
 
