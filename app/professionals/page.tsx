@@ -21,7 +21,7 @@ export default function ProfessionalCategoriesPage() {
       {categories.map((cat) => (
         <a
           key={cat.id}
-          href={cat.link}
+          href={cat.link ?? undefined}
           className="
             group block bg-white rounded-2xl shadow-md p-6 
             border border-gray-200
