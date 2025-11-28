@@ -1,10 +1,9 @@
-"use client";
+"use client"
 
 import { useState } from "react";
 import { useCart } from "@/app/context/CartContext";
 import Image from "next/image";
 import { SeparateDeliveryBadge } from "@/public/svgFiles/general/SeparateDeliveryBadge";
-
 
 type ProductCardProps = {
   product: {
@@ -14,9 +13,12 @@ type ProductCardProps = {
     price: number;
     image_url?: string | null;
     homepage: boolean;
-    separate_delivery:boolean;
+    separate_delivery?: boolean;   // 👈 תיקון
   };
 };
+
+
+
 
 export default function ProductCard({ product }: ProductCardProps) {
   const [quantity, setQuantity] = useState(1);
