@@ -1,3 +1,5 @@
+"use client"
+
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -17,7 +19,7 @@ export function useProfessionalCategories() {
   const fetchCategories = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/professional-categories");
+      const res = await fetch("/api/professional_categories");
       if (!res.ok) throw new Error("Failed to fetch categories");
       const data: ProfessionalCategory[] = await res.json();
       setCategories(data);
@@ -29,33 +31,40 @@ export function useProfessionalCategories() {
   }, []);
 
   // POST
-  const addCategory = useCallback(async (cat: Omit<ProfessionalCategory, "id">) => {
-    try {
-      setLoading(true);
-      const res = await fetch("/api/professional-categories", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(cat),
-      });
-      if (!res.ok) throw new Error("Failed to add category");
-      const newCategory: ProfessionalCategory = await res.json();
-      setCategories((prev) => [...prev, newCategory]);
-    } catch (err) {
-      setError((err as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const addCategory = useCallback(
+    async (cat: Omit<ProfessionalCategory, "id">) => {
+      try {
+        setLoading(true);
+        const res = await fetch("/api/professional_categories", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(cat),
+        });
+
+        if (!res.ok) throw new Error("Failed to add category");
+
+        const newCategory: ProfessionalCategory = await res.json();
+        setCategories((prev) => [...prev, newCategory]);
+      } catch (err) {
+        setError((err as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
 
   // DELETE
   const deleteCategory = useCallback(async (id: string) => {
     try {
       setLoading(true);
-      const res = await fetch(`/api/professional-categories/${id}`, {
+      const res = await fetch(`/api/professional_categories/${id}`, {
         method: "DELETE",
       });
+
       if (!res.ok) throw new Error("Failed to delete category");
-      setCategories((prev) => prev.filter((item) => item.id !== id));
+
+      setCategories((prev) => prev.filter((c) => c.id !== id));
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -68,13 +77,16 @@ export function useProfessionalCategories() {
     async (id: string, updated: Partial<ProfessionalCategory>) => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/professional-categories/${id}`, {
+        const res = await fetch(`/api/professional_categories/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(updated),
         });
+
         if (!res.ok) throw new Error("Failed to update category");
+
         const updatedCat: ProfessionalCategory = await res.json();
+
         setCategories((prev) =>
           prev.map((c) => (c.id === id ? updatedCat : c))
         );
@@ -87,7 +99,7 @@ export function useProfessionalCategories() {
     []
   );
 
-  // Load initial
+  // LOAD ON MOUNT
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
