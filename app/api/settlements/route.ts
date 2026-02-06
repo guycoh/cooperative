@@ -13,24 +13,29 @@ type Settlement = {
   created_at: string;
 };
 
-// Body type ל־POST / PUT / DELETE
 type SettlementBody = {
   settlement_number: number;
   name?: string;
 };
 
-// ✅ GET - שליפת כל היישובים
+// ✅ GET - כל היישובים
 export async function GET() {
-  const { data, error } = await supabase
-    .from("aa_settlements")
-    .select("*")
-    .order("name", { ascending: true });
+  try {
+    const { data, error } = await supabase
+      .from("aa_settlements")
+      .select("*")
+      .order("name", { ascending: true });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json(data as Settlement[]);
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    return NextResponse.json(data as Settlement[]);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }
 
-// ✅ POST - יצירת יישוב חדש
+// ✅ POST - הוספת יישוב חדש
 export async function POST(req: Request) {
   try {
     const body = (await req.json()) as SettlementBody;
@@ -42,6 +47,7 @@ export async function POST(req: Request) {
       .select();
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
     return NextResponse.json((data as Settlement[])[0]);
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";
@@ -62,6 +68,7 @@ export async function PUT(req: Request) {
       .select();
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
     return NextResponse.json((data as Settlement[])[0]);
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";
@@ -73,12 +80,14 @@ export async function PUT(req: Request) {
 export async function DELETE(req: Request) {
   try {
     const body = (await req.json()) as SettlementBody;
+
     const { error } = await supabase
       .from("aa_settlements")
       .delete()
       .eq("settlement_number", body.settlement_number);
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
     return NextResponse.json({ success: true });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";
