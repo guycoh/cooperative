@@ -45,11 +45,11 @@ export default function HomePage() {
           אין מוצרים להצגה בדף הבית כרגע
         </div>
       ) : (
-        <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {homepageProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+        <div className="grid gap-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {homepageProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
         
       )}
 
