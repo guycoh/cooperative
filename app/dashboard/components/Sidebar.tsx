@@ -15,6 +15,8 @@ export default function Sidebar() {
     { name: "ספקים פנימיים", href: "/dashboard/internalsuppliers", icon: "⚙️" },
     { name: "מוצרים", href: "/dashboard/products", icon: "📦" },
     { name: "לקוחות", href: "/clients", icon: "🧑‍🤝‍🧑" },
+    { name: "טבלת יישובים", href: "/dashboard/settlements", icon: "🧑‍🤝‍🧑" },
+  
   ];
 
   return (
