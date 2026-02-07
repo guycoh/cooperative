@@ -13,7 +13,7 @@ export default function CartSidebar() {
       {/* כפתור פתיחת עגלה */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed top-2 left-5 z-50 bg-green-600 text-white px-4 py-3 rounded-full shadow-lg hover:bg-green-700 transition font-semibold"
+        className="fixed top-2 left-5 z-50 bg-white text-green-900 px-4 py-3 rounded-full shadow-lg hover:bg-green-700 transition font-semibold"
       >
         🛒 {cart.length > 0 && <span>({cart.length})</span>}
       </button>
@@ -33,7 +33,7 @@ export default function CartSidebar() {
         }`}
       >
         {/* Header */}
-        <div className="flex justify-between items-center p-4 bg-green-600 text-white">
+        <div className="flex justify-between items-center p-4 bg-green-900 text-white">
           <h2 className="text-xl font-semibold">עגלה שלי</h2>
           <button onClick={() => setIsOpen(false)} className="text-2xl font-bold hover:text-green-200 transition">
             ✕
