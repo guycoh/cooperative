@@ -4,6 +4,9 @@ import { useState } from "react"
 import { useCart } from "@/app/context/CartContext"
 import Image from "next/image"
 import { SeparateDeliveryBadge } from "@/public/svgFiles/general/SeparateDeliveryBadge"
+import LocalSupplierBadge from "@/public/svgFiles/general/LocalSupplierBadge"
+import LocalSupplierDocument from "@/public/svgFiles/general/LocalSupplierDocument"
+import LocalSupplierStamp from "@/public/svgFiles/general/LocalSupplierStamp"
 
 type ProductCardProps = {
   product: {
@@ -14,6 +17,7 @@ type ProductCardProps = {
     image_url?: string | null
     homepage: boolean
     separate_delivery?: boolean
+    is_local_supplier?: boolean
   }
 }
 
@@ -114,6 +118,19 @@ export default function ProductCard({ product }: ProductCardProps) {
           <SeparateDeliveryBadge />
         </div>
       )}
+
+      {product.is_local_supplier && (  
+      <div className="absolute -top-2 -right-2">     
+        <LocalSupplierStamp
+          size={72}
+          className="absolute top-3 right-3"
+        />
+      </div>
+      )}
+
+        
+
+
     </div>
   )
 }
