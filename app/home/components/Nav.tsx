@@ -3,14 +3,16 @@
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
-
+import HorizontalCategoryNav from "./HorizontalCategoryNav";
 
 
 export default function Nav() {
 
   const [menuOpen, setMenuOpen] = useState(false);
   return (
-   <nav className="sticky top-0 z-50 bg-green-900 text-white shadow-md">
+  <div className="sticky top-0 z-50">
+
+   <nav className=" bg-green-900 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* לוגו */}
@@ -118,6 +120,11 @@ export default function Nav() {
         </div>
       )}
     </nav>
+
+ <HorizontalCategoryNav/>
+
+ </div>
+
   );
 }
 
