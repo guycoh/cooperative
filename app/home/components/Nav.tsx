@@ -1,9 +1,12 @@
+
 "use client";
 
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import HorizontalCategoryNav from "./HorizontalCategoryNav";
+import SideMenu from "./sidebar_mobile";
+
 
 
 export default function Nav() {
@@ -16,7 +19,7 @@ export default function Nav() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* לוגו */}
-          <div className="flex-shrink-0 flex items-center bg-white">
+          {/* <div className="flex-shrink-0 flex items-center bg-white">
             <Image
               src="/images/granot.png"
               alt="granot"
@@ -24,10 +27,19 @@ export default function Nav() {
               height={50}
               priority
             />
-          </div>
+          </div> */}
 
           {/* Desktop menu */}
           <div className="hidden md:flex md:items-center md:space-x-4">
+           <Link
+              href="/professionals"
+              className="inline-block bg-white text-primary font-semibold px-4 py-2 rounded hover:bg-gray-100 transition"
+            >
+             בעלי מקצוע
+            </Link>
+           
+           
+           
             <Link
               href="/auth/signup"
               className="inline-block bg-white text-primary font-semibold px-4 py-2 rounded hover:bg-gray-100 transition"
@@ -40,6 +52,7 @@ export default function Nav() {
             >
               כניסה
             </Link>
+            
             <button className="ml-2 p-2 rounded hover:bg-primary-hover transition">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -93,32 +106,20 @@ export default function Nav() {
       </div>
 
       {/* Mobile menu */}
-      {menuOpen && (
-        <div className="md:hidden px-4 pt-2 pb-4 space-y-2 bg-primary">
-          <button className="block w-full text-left bg-white text-primary font-semibold px-4 py-2 rounded hover:bg-gray-100 transition">
-            הרשמה
-          </button>
-          <button className="block w-full text-left bg-white text-primary font-semibold px-4 py-2 rounded hover:bg-gray-100 transition">
-            כניסה
-          </button>
-          <button className="block w-full text-left p-2 rounded hover:bg-primary-hover transition">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-white"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7H19m-12-7v-6h8v6"
-              />
-            </svg>
-          </button>
-        </div>
-      )}
+
+      {/* Sidebar */}
+     <SideMenu
+        isOpen={menuOpen}
+        onClose={() => setMenuOpen(false)}
+      />
+
+
+
+
+
+
+
+    
     </nav>
 
  <HorizontalCategoryNav/>

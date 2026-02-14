@@ -7,6 +7,8 @@ import { SeparateDeliveryBadge } from "@/public/svgFiles/general/SeparateDeliver
 import LocalSupplierBadge from "@/public/svgFiles/general/LocalSupplierBadge"
 import LocalSupplierDocument from "@/public/svgFiles/general/LocalSupplierDocument"
 import LocalSupplierStamp from "@/public/svgFiles/general/LocalSupplierStamp"
+import DeliverySeparateIcon from "@/public/svgFiles/general/DeliverySeparateIcon"
+
 
 type ProductCardProps = {
   product: {
@@ -113,6 +115,13 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
 
       {/* תגית משלוח נפרד */}
+      {/* {product.separate_delivery && (
+        <div className="absolute -top-4 -left-2">
+          <DeliverySeparateIcon size={120} />
+        </div>
+      )}
+       */}
+      
       {product.separate_delivery && (
         <div className="absolute top-2 left-2">
           <SeparateDeliveryBadge />

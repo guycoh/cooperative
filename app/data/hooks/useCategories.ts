@@ -9,6 +9,7 @@ export type Category = {
   description: string | null;
   parent_id: string | null;
   created_at: string;
+  slug: string; // 👈 חדש
 };
 
 export function useCategories() {

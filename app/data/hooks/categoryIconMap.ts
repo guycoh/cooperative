@@ -4,7 +4,7 @@ import BakeryIcon from "@/public/svgFiles/categories/BakeryIcon";
 import CleaningIcon from "@/public/svgFiles/categories/CleaningIcon";
 import BabyProductsIcon from "@/public/svgFiles/categories/BabyProductsIcon";
 import DisposableIcon from "@/public/svgFiles/categories/DisposabIcon";
-import DairyAndEggsIcon from "@/public/svgFiles/categories/DairyAndEggsIcon";
+import DairyAndEggsIcon from "@/public/svgFiles/categories/DairyIcon";
 import MeatAndFishIcon from "@/public/svgFiles/categories/MeatAndFishIcon";
 import FruitsAndVegIcon from "@/public/svgFiles/categories/FruitsAndVegIcon";
 

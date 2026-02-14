@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useCart } from "@/app/context/CartContext";
+import CartIcon from "@/public/svgFiles/general/CartIcon";
+
 
 export default function CartSidebar() {
   const { cart, removeFromCart, updateQuantity, total, clearCart } = useCart();
@@ -43,7 +45,20 @@ export default function CartSidebar() {
         {/* תוכן */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {cart.length === 0 ? (
-            <p className="text-gray-500 text-center mt-10">העגלה ריקה</p>
+            <div className="flex flex-col items-center justify-center mt-10 gap-4">
+              {/* טקסט */}
+              <p className="text-gray-500 text-center">העגלה ריקה</p>
+              {/* אייקון */}
+              <CartIcon
+                  size={208}
+                  colorPrimary="#22c55e"
+                  colorSecondary="#16a34a"
+                />
+            </div>
+
+            
+
+
           ) : (
             cart.map((item) => (
               <div key={item.id} className="flex items-center gap-4 border-b pb-3">
