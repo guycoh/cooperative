@@ -1,17 +1,25 @@
 
 
 // app/home/category/[slug]/page.tsx
-"use client";
+type Props = {
+  params: {
+    slug?: string | string[];
+  };
+};
 
-import { useParams } from "next/navigation";
+export default function CategoryPage({ params }: Props) {
+  const rawSlug = params.slug;
 
-export default function CategoryPage() {
-  const params = useParams();
-  const slug = params?.slug;
+  // אם זה מערך — ניקח את הערך הראשון
+  const slug =
+    typeof rawSlug === "string"
+      ? rawSlug
+      : Array.isArray(rawSlug)
+      ? rawSlug[0]
+      : undefined;
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Category Page</h1>
+    <div className="p-10">
       <p>
         Slug:{" "}
         <span className="font-mono text-blue-600">
