@@ -32,15 +32,56 @@ export default function HomePage() {
       {/* כותרת */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-extrabold text-green-700 mb-3">
-          המוצרים שלנו
+         כלכלה מקומית מקיימת
         </h1>
         <p className="text-gray-600 text-lg">
-          כאן תמצאו את המוצרים הנבחרים של הקואופרטיב שלנו
+         כל חבר אצלנו הוא גם יצרן וגם צרכן
         </p>
       </div>
 
       {/* גריד מוצרים */}
-      {homepageProducts.length === 0 ? (
+      
+      <div className="max-w-[1600px] mx-auto px-4 ">
+
+        {homepageProducts.length === 0 ? (
+          <div className="text-center text-gray-500 text-lg">
+            אין מוצרים להצגה בדף הבית כרגע
+          </div>
+        ) : (
+          <div
+            className="
+              grid
+              grid-cols-2
+              md:grid-cols-3
+              lg:grid-cols-4
+              2xl:grid-cols-5
+              gap-5 
+              md:gap-6
+              2xl:gap-8
+            "
+          >
+            {homepageProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
+
+      </div>
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      {/* {homepageProducts.length === 0 ? (
         <div className="text-center text-gray-500 text-lg">
           אין מוצרים להצגה בדף הבית כרגע
         </div>
@@ -51,7 +92,7 @@ export default function HomePage() {
           ))}
         </div>
         
-      )}
+      )} */}
 
     </main>
   );
