@@ -54,7 +54,7 @@ export default function SideMenu({ isOpen, onClose }: Props) {
     return (
       <Link
         key={cat.id}
-        href={`/home/category/${cat.slug}`}
+        href={`/home/${cat.slug}`}
         onClick={onClose}
         className="
           flex items-center gap-3 p-2 rounded-lg

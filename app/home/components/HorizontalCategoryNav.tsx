@@ -27,7 +27,7 @@ export default function HorizontalCategoryNav() {
             >
               {/* כפתור קטגוריה */}
              <Link
-  href={`/home/category/${cat.slug}`}
+  href={`/home/${cat.slug}`}
   className="
     w-20 h-16
     flex flex-col items-center justify-center gap-1
@@ -62,7 +62,7 @@ export default function HorizontalCategoryNav() {
                   {children.map((sub) => (
                     <li key={sub.id}>
                       <Link
-                        href="#"
+                        href={`/home/${sub.slug}`}                      
                         className="
                           block px-4 py-2
                           text-green-700

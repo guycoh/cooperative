@@ -10,13 +10,14 @@ type Category = {
   name: string;
   description: string | null;
   parent_id: string | null;
+  slug: string; // 👈 חדש
   created_at: string;
 };
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
-  const [newMain, setNewMain] = useState({ name: "", description: "" });
+  const [newMain, setNewMain] = useState({ name: "", description: "", });
   const [newSubCategory, setNewSubCategory] = useState<{ [key: string]: string }>({});
   const [editMode, setEditMode] = useState<{ [key: string]: boolean }>({});
   const [editValues, setEditValues] = useState<{ [key: string]: { name: string; description: string | null } }>({});
