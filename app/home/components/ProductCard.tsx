@@ -1,6 +1,3 @@
-
-
-
 "use client"
 
 import { useState } from "react"
@@ -32,18 +29,24 @@ export default function ProductCard({ product }: ProductCardProps) {
   const increment = () => setQuantity((q) => q + 1)
   const decrement = () => setQuantity((q) => Math.max(1, q - 1))
 
-  const handleAddToCart = () => {
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image_url: product.image_url,
-      quantity,
-    })
+const handleAddToCart = () => {
+  addToCart({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    image_url: product.image_url,
+    quantity,
 
-    alert(`הוספת ${quantity} יחידות של ${product.name} לעגלה`)
-    setQuantity(1)
-  }
+    // 🔥 חשוב — לשלוח לעגלה
+    is_local_supplier: Boolean(product.is_local_supplier),
+    separate_delivery: Boolean(product.separate_delivery),
+  })
+
+  alert(`הוספת ${quantity} יחידות של ${product.name} לעגלה`)
+  setQuantity(1)
+}
+
+ 
 
   return (
     <div className="relative bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden flex flex-col">

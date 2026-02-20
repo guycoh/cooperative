@@ -27,7 +27,7 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-green-50 to-white py-12 px-4 sm:px-8 md:px-12 lg:px-24">
-    <CartSidebar />
+   
     
       {/* כותרת */}
       <div className="text-center mb-12">
@@ -68,31 +68,6 @@ export default function HomePage() {
 
       </div>
 
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      {/* {homepageProducts.length === 0 ? (
-        <div className="text-center text-gray-500 text-lg">
-          אין מוצרים להצגה בדף הבית כרגע
-        </div>
-      ) : (
-        <div className="grid gap-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {homepageProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-        
-      )} */}
 
     </main>
   );

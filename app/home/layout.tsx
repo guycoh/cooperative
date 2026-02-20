@@ -3,7 +3,7 @@
 import Nav from "./components/Nav";
 
 //import { useCategories } from "@/data/hooks/useCategories";
-
+import CartSidebar from "./components/CartSidebar";
 
 
 export default function HomeLayout({
@@ -16,6 +16,8 @@ export default function HomeLayout({
       <Nav />
      
       <main className="pt-0"> {/* פדינג כדי לא ליפול מתחת ל-Navbar */}
+         <CartSidebar />
+       
         {children}
       </main>
     </div>
