@@ -5,6 +5,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { useCart } from "@/app/context/CartContext";
 import CartIcon from "@/public/svgFiles/general/CartIcon";
+import Link from "next/link"
+
 
 export default function CartSidebar() {
   const { cart, removeFromCart, updateQuantity, total, clearCart } = useCart();
@@ -64,67 +66,67 @@ export default function CartSidebar() {
               )}
 
               {cart.map((item) => (
-   <div key={item.id} className="flex gap-4 border-b pb-4 items-center relative">
-  {/* תמונה */}
-  <div className="relative w-16 h-16 flex-shrink-0">
-    <Image
-      src={item.image_url || "/placeholder.png"}
-      alt={item.name}
-      fill
-      className="object-cover rounded-lg"
-    />
-  </div>
+              <div key={item.id} className="flex gap-4 border-b pb-4 items-center relative">
+              {/* תמונה */}
+              <div className="relative w-16 h-16 flex-shrink-0">
+                <Image
+                  src={item.image_url || "/placeholder.png"}
+                  alt={item.name}
+                  fill
+                  className="object-cover rounded-lg"
+                />
+              </div>
 
-  {/* פרטי מוצר */}
-  <div className="flex-1">
-    <h3 className="text-green-800 font-semibold">{item.name}</h3>
+              {/* פרטי מוצר */}
+              <div className="flex-1">
+                <h3 className="text-green-800 font-semibold">{item.name}</h3>
 
-    {/* מחיר */}
-    <p className="text-gray-500 text-sm mt-1">₪{item.price.toFixed(2)}</p>
-    <p className="text-gray-700 font-semibold text-sm">
-      סה&quot;כ: ₪{(item.price * item.quantity).toFixed(2)}
-    </p>
+                {/* מחיר */}
+                <p className="text-gray-500 text-sm mt-1">₪{item.price.toFixed(2)}</p>
+                <p className="text-gray-700 font-semibold text-sm">
+                  סה&quot;כ: ₪{(item.price * item.quantity).toFixed(2)}
+                </p>
 
-    {/* כמות */}
-    <div className="flex items-center gap-2 mt-2">
-      <button
-        onClick={() => updateQuantity(item.id, item.quantity - 1)}
-        className="bg-green-100 text-green-700 px-2 py-1 rounded-lg hover:bg-green-200 transition font-semibold"
-      >
-        -
-      </button>
-      <span className="w-8 text-center">{item.quantity}</span>
-      <button
-        onClick={() => updateQuantity(item.id, item.quantity + 1)}
-        className="bg-green-100 text-green-700 px-2 py-1 rounded-lg hover:bg-green-200 transition font-semibold"
-      >
-        +
-      </button>
-    </div>
-  </div>
+                {/* כמות */}
+                <div className="flex items-center gap-2 mt-2">
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    className="bg-green-100 text-green-700 px-2 py-1 rounded-lg hover:bg-green-200 transition font-semibold"
+                  >
+                    -
+                  </button>
+                  <span className="w-8 text-center">{item.quantity}</span>
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    className="bg-green-100 text-green-700 px-2 py-1 rounded-lg hover:bg-green-200 transition font-semibold"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
 
-  {/* סימונים עיגול עם טקסט בתוכו */}
-  <div className="flex flex-col items-end justify-center gap-1 mr-2">
-  {item.is_local_supplier && (
-    <div className="w-16 h-5 rounded-full bg-green-500 text-white text-[9px] font-bold flex items-center justify-center">
-      ספק מקומי
-    </div>
-  )}
-  {item.separate_delivery && (
-    <div className="w-16 h-5 rounded-full bg-purple-500 text-white text-[9px] font-bold flex items-center justify-center">
-      אספקה נפרדת
-    </div>
-  )}
-</div>
+              {/* סימונים עיגול עם טקסט בתוכו */}
+              <div className="flex flex-col items-end justify-center gap-1 mr-2">
+              {item.is_local_supplier && (
+                <div className="w-16 h-5 rounded-full bg-green-500 text-white text-[9px] font-bold flex items-center justify-center">
+                  ספק מקומי
+                </div>
+              )}
+              {item.separate_delivery && (
+                <div className="w-16 h-5 rounded-full bg-purple-500 text-white text-[9px] font-bold flex items-center justify-center">
+                  אספקה נפרדת
+                </div>
+              )}
+            </div>
 
-  {/* כפתור הסרה */}
-  <button
-    onClick={() => removeFromCart(item.id)}
-    className="text-red-600 font-bold text-lg hover:text-red-700 transition"
-  >
-    ✕
-  </button>
-</div> 
+              {/* כפתור הסרה */}
+              <button
+                onClick={() => removeFromCart(item.id)}
+                className="text-red-600 font-bold text-lg hover:text-red-700 transition"
+              >
+                ✕
+              </button>
+              </div> 
 
 
               ))}
@@ -147,9 +149,14 @@ export default function CartSidebar() {
               רוקן עגלה
             </button>
 
-            <button className="bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition font-semibold text-lg shadow-md">
-              המשך לתשלום
-            </button>
+            import Link from "next/link"
+
+              <Link
+                href="/home/checkout"
+                className="bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition font-semibold text-lg shadow-md flex justify-center"
+              >
+                המשך לתשלום
+              </Link>
           </div>
         )}
       </div>
