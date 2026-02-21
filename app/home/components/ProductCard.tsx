@@ -1,13 +1,11 @@
+
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { useCart } from "@/app/context/CartContext"
 import Image from "next/image"
 import { SeparateDeliveryBadge } from "@/public/svgFiles/general/SeparateDeliveryBadge"
-
 import LocalSupplierStamp from "@/public/svgFiles/general/LocalSupplierStamp"
-
-
 
 type ProductCardProps = {
   product: {
@@ -24,33 +22,34 @@ type ProductCardProps = {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const [quantity, setQuantity] = useState(1)
+  const [showNote, setShowNote] = useState(false)
+  const timerRef = useRef<NodeJS.Timeout | null>(null) // לטיימר
   const { addToCart } = useCart()
 
   const increment = () => setQuantity((q) => q + 1)
   const decrement = () => setQuantity((q) => Math.max(1, q - 1))
 
-const handleAddToCart = () => {
-  addToCart({
-    id: product.id,
-    name: product.name,
-    price: product.price,
-    image_url: product.image_url,
-    quantity,
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image_url: product.image_url,
+      quantity,
+      is_local_supplier: Boolean(product.is_local_supplier),
+      separate_delivery: Boolean(product.separate_delivery),
+    })
 
-    // 🔥 חשוב — לשלוח לעגלה
-    is_local_supplier: Boolean(product.is_local_supplier),
-    separate_delivery: Boolean(product.separate_delivery),
-  })
+    // ביטול טיימר קודם אם קיים
+    if (timerRef.current) clearTimeout(timerRef.current)
 
-  alert(`הוספת ${quantity} יחידות של ${product.name} לעגלה`)
-  setQuantity(1)
-}
-
- 
+    setShowNote(true)
+    timerRef.current = setTimeout(() => setShowNote(false), 1000) // נעלם אחרי שניה
+    setQuantity(1)
+  }
 
   return (
     <div className="relative bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden flex flex-col">
-      
       {/* תמונה */}
       <div className="relative w-full aspect-[4/3] bg-gray-100">
         {product.image_url ? (
@@ -69,7 +68,6 @@ const handleAddToCart = () => {
 
       {/* תוכן */}
       <div className="p-4 flex flex-col gap-3 flex-1">
-        
         {/* שם + תיאור */}
         <div>
           <h2 className="text-base font-semibold text-green-700 leading-tight">
@@ -89,7 +87,6 @@ const handleAddToCart = () => {
 
         {/* פעולות */}
         <div className="mt-auto flex flex-wrap items-center gap-2">
-          
           {/* כמות */}
           <div className="flex items-center border rounded-lg overflow-hidden">
             <button
@@ -98,9 +95,7 @@ const handleAddToCart = () => {
             >
               -
             </button>
-
             <span className="px-3 text-sm font-medium">{quantity}</span>
-
             <button
               onClick={increment}
               className="px-2 py-1 text-green-700 bg-green-50 hover:bg-green-100 font-semibold"
@@ -110,38 +105,190 @@ const handleAddToCart = () => {
           </div>
 
           {/* הוסף לסל */}
-          <button
-            onClick={handleAddToCart}
-            className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition text-sm font-semibold"
-          >
-            הוסף לסל
-          </button>
+          <div className="relative flex-1">
+            <button
+              onClick={handleAddToCart}
+              className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition text-sm font-semibold"
+            >
+              הוסף לסל
+            </button>
+
+            {/* בלון חמוד */}
+            {showNote && (
+              <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-green-100 text-green-800 text-sm font-semibold px-3 py-1 rounded-lg shadow-md flex items-center justify-center animate-fadeUpFadeOut">
+                ✅ נוסף לעגלה!
+                <span className="absolute -bottom-1 w-3 h-3 bg-green-100 rotate-45 left-1/2 transform -translate-x-1/2"></span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* תגית משלוח נפרד */}
-      
+      {/* תגיות */}
       {product.separate_delivery && (
         <div className="absolute top-2 left-2">
           <SeparateDeliveryBadge />
         </div>
       )}
 
-      {product.is_local_supplier && (  
-      <div className="absolute -top-2 -right-2">     
-        <LocalSupplierStamp
-          size={72}
-          className="absolute top-3 right-3"
-        />
-      </div>
+      {product.is_local_supplier && (
+        <div className="absolute -top-2 -right-2">
+          <LocalSupplierStamp size={72} className="absolute top-3 right-3" />
+        </div>
       )}
+    </div>
+  )
+}
+
+
+
+
+
+
+// "use client"
+
+// import { useState } from "react"
+// import { useCart } from "@/app/context/CartContext"
+// import Image from "next/image"
+// import { SeparateDeliveryBadge } from "@/public/svgFiles/general/SeparateDeliveryBadge"
+
+// import LocalSupplierStamp from "@/public/svgFiles/general/LocalSupplierStamp"
+
+
+
+// type ProductCardProps = {
+//   product: {
+//     id: string
+//     name: string
+//     description: string | null
+//     price: number
+//     image_url?: string | null
+//     homepage: boolean
+//     separate_delivery?: boolean
+//     is_local_supplier?: boolean
+//   }
+// }
+
+// export default function ProductCard({ product }: ProductCardProps) {
+//   const [quantity, setQuantity] = useState(1)
+//   const { addToCart } = useCart()
+
+//   const increment = () => setQuantity((q) => q + 1)
+//   const decrement = () => setQuantity((q) => Math.max(1, q - 1))
+
+// const handleAddToCart = () => {
+//   addToCart({
+//     id: product.id,
+//     name: product.name,
+//     price: product.price,
+//     image_url: product.image_url,
+//     quantity,
+
+//     // 🔥 חשוב — לשלוח לעגלה
+//     is_local_supplier: Boolean(product.is_local_supplier),
+//     separate_delivery: Boolean(product.separate_delivery),
+//   })
+
+//   alert(`הוספת ${quantity} יחידות של ${product.name} לעגלה`)
+//   setQuantity(1)
+// }
+
+ 
+
+//   return (
+//     <div className="relative bg-white rounded-xl shadow-sm hover:shadow-lg transition overflow-hidden flex flex-col">
+      
+//       {/* תמונה */}
+//       <div className="relative w-full aspect-[4/3] bg-gray-100">
+//         {product.image_url ? (
+//           <Image
+//             src={product.image_url}
+//             alt={product.name}
+//             fill
+//             className="object-cover"
+//           />
+//         ) : (
+//           <div className="absolute inset-0 flex items-center justify-center text-gray-400">
+//             ללא תמונה
+//           </div>
+//         )}
+//       </div>
+
+//       {/* תוכן */}
+//       <div className="p-4 flex flex-col gap-3 flex-1">
+        
+//         {/* שם + תיאור */}
+//         <div>
+//           <h2 className="text-base font-semibold text-green-700 leading-tight">
+//             {product.name}
+//           </h2>
+//           {product.description && (
+//             <p className="text-gray-500 text-sm line-clamp-2 mt-1">
+//               {product.description}
+//             </p>
+//           )}
+//         </div>
+
+//         {/* מחיר */}
+//         <div className="text-lg font-bold text-gray-800">
+//           ₪{product.price.toFixed(2)}
+//         </div>
+
+//         {/* פעולות */}
+//         <div className="mt-auto flex flex-wrap items-center gap-2">
+          
+//           {/* כמות */}
+//           <div className="flex items-center border rounded-lg overflow-hidden">
+//             <button
+//               onClick={decrement}
+//               className="px-2 py-1 text-green-700 bg-green-50 hover:bg-green-100 font-semibold"
+//             >
+//               -
+//             </button>
+
+//             <span className="px-3 text-sm font-medium">{quantity}</span>
+
+//             <button
+//               onClick={increment}
+//               className="px-2 py-1 text-green-700 bg-green-50 hover:bg-green-100 font-semibold"
+//             >
+//               +
+//             </button>
+//           </div>
+
+//           {/* הוסף לסל */}
+//           <button
+//             onClick={handleAddToCart}
+//             className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition text-sm font-semibold"
+//           >
+//             הוסף לסל
+//           </button>
+//         </div>
+//       </div>
+
+//       {/* תגית משלוח נפרד */}
+      
+//       {product.separate_delivery && (
+//         <div className="absolute top-2 left-2">
+//           <SeparateDeliveryBadge />
+//         </div>
+//       )}
+
+//       {product.is_local_supplier && (  
+//       <div className="absolute -top-2 -right-2">     
+//         <LocalSupplierStamp
+//           size={72}
+//           className="absolute top-3 right-3"
+//         />
+//       </div>
+//       )}
 
         
 
 
-    </div>
-  )
-}
+//     </div>
+//   )
+// }
 
 
 

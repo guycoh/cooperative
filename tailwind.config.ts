@@ -32,6 +32,26 @@ const config: Config = {
         success: "#16a34a",
         warning: "#facc15",
       },
+
+       keyframes: {
+        fadeInOut: {
+          '0%, 100%': { opacity: '0' },
+          '10%, 90%': { opacity: '1' },
+        },
+      },
+      animation: {
+        fadeInOut: 'fadeInOut 1s ease-in-out forwards',
+      },
+
+
+
+
+
+
+
+
+
+
     },
   },
   plugins: [],

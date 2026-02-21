@@ -149,7 +149,7 @@ export default function CartSidebar() {
               רוקן עגלה
             </button>
 
-            import Link from "next/link"
+         
 
               <Link
                 href="/home/checkout"

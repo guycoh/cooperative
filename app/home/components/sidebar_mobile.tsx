@@ -76,6 +76,56 @@ export default function SideMenu({ isOpen, onClose }: Props) {
       </Link>
     );
   })}
+
+
+{/* קו מפריד */}
+      <div className="border-t border-gray-200 my-4" />
+
+      {/* קישורים נוספים */}
+      <Link
+        href="/professionals"
+        onClick={onClose}
+        className="flex items-center gap-3 p-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition"
+      >
+        מקצוענים בקהילה
+      </Link>
+
+      <Link
+        href="/auth/login"
+        onClick={onClose}
+        className="flex items-center gap-3 p-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition"
+      >
+        כניסה למערכת
+      </Link>
+
+      <Link
+        href="/auth/signup"
+        onClick={onClose}
+        className="flex items-center gap-3 p-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition"
+      >
+        הרשמה
+      </Link>
+
+      <Link
+        href="/profile"
+        onClick={onClose}
+        className="flex items-center gap-3 p-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition"
+      >
+        הפרופיל שלי
+      </Link>
+
+
+
+
+
+
+
+
+
+
+
+
+
 </nav>
 
       </aside>
