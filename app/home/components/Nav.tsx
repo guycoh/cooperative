@@ -15,7 +15,7 @@ export default function Nav() {
   return (
   <div className="sticky top-0 z-50">
 
-   <nav className=" bg-green-900 text-white shadow-md">
+   <nav className="relative bg-green-900 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* לוגו */}
@@ -30,7 +30,7 @@ export default function Nav() {
           </div> */}
 
           {/* Desktop menu */}
-          <div className="hidden md:flex md:items-center md:space-x-4">
+          <div className="absolute left-10  hidden md:flex md:items-center md:space-x-4">
            <Link
               href="/professionals"
               className="inline-block bg-white text-primary font-semibold px-4 py-2 rounded hover:bg-gray-100 transition"
@@ -112,13 +112,6 @@ export default function Nav() {
         isOpen={menuOpen}
         onClose={() => setMenuOpen(false)}
       />
-
-
-
-
-
-
-
     
     </nav>
 
