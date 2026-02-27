@@ -10,6 +10,12 @@ const config: Config = {
     extend: {
       colors: {
         
+        aura: {
+          gold: "#D4B95E",
+          cream: "#FCFBF3",
+        },
+
+        
         primary: "#FFCCFF",
         "primary-hover": "#15803d",
         

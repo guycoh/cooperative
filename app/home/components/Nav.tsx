@@ -15,7 +15,7 @@ export default function Nav() {
   return (
   <div className="sticky top-0 z-50">
 
-   <nav className="relative bg-green-900 text-white shadow-md">
+   <nav className="relative bg-emerald-600 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* לוגו */}
@@ -30,7 +30,7 @@ export default function Nav() {
           </div> */}
 
           {/* Desktop menu */}
-          <div className="absolute left-10  hidden md:flex md:items-center md:space-x-4">
+          <div className="absolute left-22  hidden md:flex md:items-center md:space-x-4">
            <Link
               href="/professionals"
               className="inline-block bg-white text-primary font-semibold px-4 py-2 rounded hover:bg-gray-100 transition"
@@ -53,22 +53,7 @@ export default function Nav() {
               כניסה
             </Link>
             
-            <button className="ml-2 p-2 rounded hover:bg-primary-hover transition">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 7H19m-12-7v-6h8v6"
-                />
-              </svg>
-            </button>
+           
           </div>
 
           {/* Mobile menu button */}
