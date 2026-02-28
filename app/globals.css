@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -41,9 +42,29 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+ /* צבעי אתר */
+  --color-aura-gold: var(--aura-gold);
+  --color-aura-cream: var(--aura-cream);
+
+  --color-brand-green: var(--brand-green);
+  --color-brand-cream: var(--brand-cream);
+
+
 }
 
 :root {
+  /* צבעי אתר */
+   /* צבעי חום */
+  --aura-gold: #D4B95E;
+  --aura-cream: #FCFBF3;
+   /* צבעי ירוק */
+  --brand-green: #5E7440;
+  --brand-cream: #E9E6D6;
+
+
+
+
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -76,6 +97,8 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+
 }
 
 .dark {

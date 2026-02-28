@@ -12,7 +12,7 @@ export default function HorizontalCategoryNav() {
   if (loading) return null;
 
   return (
-    <nav className="sticky top-0 z-50 bg-white shadow-sm hidden md:block border-b border-green-100">
+    <nav className="sticky top-0 z-50 bg-brand-green shadow-sm hidden md:block border-b border-green-100">
       <ul className="flex justify-start gap-3 px-6 py-2 h-16">
         {mainCategories.map((cat) => {
           const children = getChildren(cat.id);
@@ -25,15 +25,16 @@ export default function HorizontalCategoryNav() {
               onMouseEnter={() => setOpenCatId(cat.id)}
               onMouseLeave={() => setOpenCatId(null)}
             >
+
               {/* כפתור קטגוריה */}
              <Link
                 href={`/home/${cat.slug}`}
                 className="
                   w-20 h-16
                   flex flex-col items-center justify-center gap-1
-                  bg-white border border-green-200 rounded-xl
+                  bg-brand-cream border border-green-200 rounded-xl
                   shadow-sm
-                  text-green-700
+                  text-brand-green
                   hover:bg-green-50 hover:border-green-300 hover:text-green-800
                   transition-all duration-200
                   text-xs
@@ -41,7 +42,7 @@ export default function HorizontalCategoryNav() {
                 "
               >
                 {IconComponent && (
-                  <IconComponent size={20} className="text-green-600" />
+                  <IconComponent size={20} className="text-brand-green" />
                 )}
 
                 <span className="text-center leading-tight font-medium">
