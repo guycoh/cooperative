@@ -31,7 +31,7 @@ export default function Nav() {
           </div> */}
 
           {/* Desktop menu */}
-          <div className="absolute left-22  hidden md:flex md:items-center md:space-x-4">
+          <div className="absolute left-36  hidden md:flex md:items-center md:space-x-4">
            <Link
               href="/professionals"
               className="inline-block bg-aura-cream text-aura-gold font-semibold px-4 py-2 rounded hover:bg-gray-100 transition"

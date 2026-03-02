@@ -153,7 +153,7 @@ export default function CartSidebar() {
             <Link
               href="/home/checkout"
               onClick={() => setIsOpen(false)}
-              className="bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition font-semibold text-lg shadow-md flex justify-center"
+              className="bg-brand-green text-white py-3 rounded-lg hover:bg-green-700 transition font-semibold text-lg shadow-md flex justify-center"
             >
               המשך לתשלום
             </Link>

@@ -108,7 +108,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div className="relative flex-1">
             <button
               onClick={handleAddToCart}
-              className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition text-sm font-semibold"
+              className="w-full bg-brand-green text-white py-2 rounded-lg hover:bg-green-700 transition text-sm font-semibold"
             >
               הוסף לסל
             </button>

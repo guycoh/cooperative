@@ -21,15 +21,16 @@ export default function SideMenu({ isOpen, onClose }: Props) {
         onClick={onClose}
       />
 
+
       {/* Sidebar */}
       <aside
-        className={`md:hidden fixed top-0 right-0 h-full w-72 bg-white z-50 shadow-xl
+        className={`md:hidden fixed top-0 right-0 h-full w-72 bg-brand-cream z-50 shadow-xl
         transform transition-transform duration-300 ease-out
         ${isOpen ? "translate-x-0" : "translate-x-full"}`}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b">
-          <span className="font-bold text-lg">קטגוריות</span>
+          <span className="font-bold text-lg text- ">קטגוריות</span>
 
           <button
             onClick={onClose}
@@ -58,7 +59,7 @@ export default function SideMenu({ isOpen, onClose }: Props) {
         onClick={onClose}
         className="
           flex items-center gap-3 p-2 rounded-lg
-          text-green-700
+          text-brand-green
           hover:bg-green-50 hover:text-green-800
           transition
         "
@@ -66,7 +67,7 @@ export default function SideMenu({ isOpen, onClose }: Props) {
         {Icon && (
           <Icon
             size={26}
-            className="shrink-0 text-green-600"
+            className="shrink-0 text-brand-green"
           />
         )}
 

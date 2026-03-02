@@ -27,28 +27,34 @@ export default function HorizontalCategoryNav() {
             >
 
               {/* כפתור קטגוריה */}
-             <Link
+            <Link
                 href={`/home/${cat.slug}`}
                 className="
                   w-20 h-16
-                  flex flex-col items-center justify-center gap-1
+                  flex flex-col
                   bg-brand-cream border border-green-200 rounded-xl
                   shadow-sm
                   text-brand-green
                   hover:bg-green-50 hover:border-green-300 hover:text-green-800
                   transition-all duration-200
-                  text-xs
                   focus:outline-none focus:ring-2 focus:ring-green-300
+                  overflow-hidden
                 "
               >
-                {IconComponent && (
-                  <IconComponent size={20} className="text-brand-green" />
-                )}
+                {/* אזור אייקון */}
+                <div className="flex-1 flex items-center justify-center">
+                  {IconComponent && (
+                    <IconComponent size={22} className="text-brand-green" />
+                  )}
+                </div>
 
-                <span className="text-center leading-tight font-medium">
-                  {cat.name}
-                </span>
-              </Link>
+                {/* אזור טקסט */}
+                <div className="flex-1 flex items-center justify-center px-1">
+                  <span className="text-[11px] leading-tight font-medium text-center">
+                    {cat.name}
+                  </span>
+                </div>
+            </Link>
 
               {/* Dropdown לילדים */}
               {children.length > 0 && openCatId === cat.id && (
