@@ -1,7 +1,7 @@
 "use client";
 import { useCart } from "@/app/context/CartContext";
 import CreditCardForm from "./CreditCardForm";
-import CheckoutTable from "./CheckoutTable";
+import CheckoutCartSummary from "./CheckoutCartSummary";
 
 export default function CheckoutPage() {
   const { cart, total } = useCart();
@@ -18,11 +18,22 @@ export default function CheckoutPage() {
       <h1 className="text-3xl font-bold text-green-800">קופת תשלום</h1>
 
       <CreditCardForm onPay={handlePayment} />
-
-       
+     
+     
       <div className="text-right text-lg font-bold text-gray-800">
         סה״כ לתשלום: ₪{total.toFixed(2)}
+
       </div>
+
+      <div className="text-right text-lg font-bold text-gray-800">
+        <CheckoutCartSummary />
+
+      </div>
+
+
+
+
+
     </div>
   );
 }
