@@ -8,8 +8,6 @@ import HorizontalCategoryNav from "./HorizontalCategoryNav";
 import SideMenu from "./sidebar_mobile";
 
 
-
-
 export default function Nav() {
 
   const [menuOpen, setMenuOpen] = useState(false);

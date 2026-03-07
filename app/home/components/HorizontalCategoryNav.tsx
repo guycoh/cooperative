@@ -1,93 +1,212 @@
 "use client";
 
 import { useState } from "react";
-import { useCategories } from "@/app/data/hooks/useCategories";
+
 import Link from "next/link";
 import { categoryIconMap } from "@/app/data/hooks/categoryIconMap";
+
+import ProductSearch from "./search/ProductSearch";
+
+import { useCategories } from "@/app/data/hooks/useCategories";
+import { useProducts } from "@/app/data/hooks/useProducts";
+
+
 
 export default function HorizontalCategoryNav() {
   const { mainCategories, getChildren, loading } = useCategories();
   const [openCatId, setOpenCatId] = useState<string | null>(null);
+  const { products } = useProducts();
+// יצירת רשימת תתי קטגוריות
+const subcategories = mainCategories.flatMap((cat) => getChildren(cat.id));
+
+// הקטגוריות הראשיות
+const categories = mainCategories;
+
 
   if (loading) return null;
 
   return (
-    <nav className="sticky top-0 z-50 bg-brand-green shadow-sm hidden md:block border-b border-green-100">
-      <ul className="flex justify-start gap-3 px-6 py-2 h-16">
-        {mainCategories.map((cat) => {
-          const children = getChildren(cat.id);
-          const IconComponent = categoryIconMap[cat.id];
+  <nav className="sticky top-0 z-50 bg-brand-green shadow-sm hidden md:block border-b border-green-100">
 
-          return (
-            <li
-              key={cat.id}
-              className="relative flex-shrink-0"
-              onMouseEnter={() => setOpenCatId(cat.id)}
-              onMouseLeave={() => setOpenCatId(null)}
-            >
+  <div className="flex items-center gap-4 px-6 py-2 h-16">
 
-              {/* כפתור קטגוריה */}
+    {/* שדה חיפוש */}
+    <div className="w-80 bg-white rounded-xl shadow-sm">
+      <ProductSearch
+        products={products}
+        categories={categories}
+        subcategories={subcategories}
+      />
+    </div>
+
+    {/* קטגוריות */}
+    <ul className="flex justify-start gap-3 flex-1">
+      {mainCategories.map((cat) => {
+        const children = getChildren(cat.id);
+        const IconComponent = categoryIconMap[cat.id];
+
+        return (
+          <li
+            key={cat.id}
+            className="relative flex-shrink-0"
+            onMouseEnter={() => setOpenCatId(cat.id)}
+            onMouseLeave={() => setOpenCatId(null)}
+          >
+
             <Link
-                href={`/home/${cat.slug}`}
-                className="
-                  w-20 h-16
-                  flex flex-col
-                  bg-brand-cream border border-green-200 rounded-xl
-                  shadow-sm
-                  text-brand-green
-                  hover:bg-green-50 hover:border-green-300 hover:text-green-800
-                  transition-all duration-200
-                  focus:outline-none focus:ring-2 focus:ring-green-300
-                  overflow-hidden
-                "
-              >
-                {/* אזור אייקון */}
-                <div className="flex-1 flex items-center justify-center">
-                  {IconComponent && (
-                    <IconComponent size={22} className="text-brand-green" />
-                  )}
-                </div>
+              href={`/home/${cat.slug}`}
+              className="
+                w-20 h-16
+                flex flex-col
+                bg-brand-cream border border-green-200 rounded-xl
+                shadow-sm
+                text-brand-green
+                hover:bg-green-50 hover:border-green-300 hover:text-green-800
+                transition-all duration-200
+                focus:outline-none focus:ring-2 focus:ring-green-300
+                overflow-hidden
+              "
+            >
+              {/* אייקון */}
+              <div className="flex-1 flex items-center justify-center">
+                {IconComponent && (
+                  <IconComponent size={22} className="text-brand-green" />
+                )}
+              </div>
 
-                {/* אזור טקסט */}
-                <div className="flex-1 flex items-center justify-center px-1">
-                  <span className="text-[11px] leading-tight font-medium text-center">
-                    {cat.name}
-                  </span>
-                </div>
+              {/* טקסט */}
+              <div className="flex-1 flex items-center justify-center px-1">
+                <span className="text-[11px] leading-tight font-medium text-center">
+                  {cat.name}
+                </span>
+              </div>
             </Link>
 
-              {/* Dropdown לילדים */}
-              {children.length > 0 && openCatId === cat.id && (
-                <ul
-                  className="
-                    absolute top-full mt-2 right-0
-                    bg-white shadow-lg rounded-xl
-                    border border-green-100
-                    min-w-[170px] z-20 overflow-hidden
-                  "
-                >
-                  {children.map((sub) => (
-                    <li key={sub.id}>
-                      <Link
-                        href={`/home/${sub.slug}`}                      
-                        className="
-                          block px-4 py-2
-                          text-green-700
-                          hover:bg-green-50 hover:text-green-900
-                          transition-colors
-                        "
-                      >
-                        {sub.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
+            {/* Dropdown */}
+            {children.length > 0 && openCatId === cat.id && (
+              <ul
+                className="
+                  absolute top-full mt-2 right-0
+                  bg-white shadow-lg rounded-xl
+                  border border-green-100
+                  min-w-[170px] z-20 overflow-hidden
+                "
+              >
+                {children.map((sub) => (
+                  <li key={sub.id}>
+                    <Link
+                      href={`/home/${sub.slug}`}
+                      className="
+                        block px-4 py-2
+                        text-green-700
+                        hover:bg-green-50 hover:text-green-900
+                        transition-colors
+                      "
+                    >
+                      {sub.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+
+  </div>
+</nav>
+  
+  
+  
+  
+  
+  
+    // <nav className="sticky top-0 z-50 bg-brand-green shadow-sm hidden md:block border-b border-green-100">
+      
+    //   <ProductSearch
+    //       products={products}
+    //       categories={categories}
+    //       subcategories={subcategories}
+    //    />
+      
+      
+      
+    //   <ul className="flex justify-start gap-3 px-6 py-2 h-16">
+    //     {mainCategories.map((cat) => {
+    //       const children = getChildren(cat.id);
+    //       const IconComponent = categoryIconMap[cat.id];
+
+    //       return (
+    //         <li
+    //           key={cat.id}
+    //           className="relative flex-shrink-0"
+    //           onMouseEnter={() => setOpenCatId(cat.id)}
+    //           onMouseLeave={() => setOpenCatId(null)}
+    //         >
+
+    //           {/* כפתור קטגוריה */}
+    //         <Link
+    //             href={`/home/${cat.slug}`}
+    //             className="
+    //               w-20 h-16
+    //               flex flex-col
+    //               bg-brand-cream border border-green-200 rounded-xl
+    //               shadow-sm
+    //               text-brand-green
+    //               hover:bg-green-50 hover:border-green-300 hover:text-green-800
+    //               transition-all duration-200
+    //               focus:outline-none focus:ring-2 focus:ring-green-300
+    //               overflow-hidden
+    //             "
+    //           >
+    //             {/* אזור אייקון */}
+    //             <div className="flex-1 flex items-center justify-center">
+    //               {IconComponent && (
+    //                 <IconComponent size={22} className="text-brand-green" />
+    //               )}
+    //             </div>
+
+    //             {/* אזור טקסט */}
+    //             <div className="flex-1 flex items-center justify-center px-1">
+    //               <span className="text-[11px] leading-tight font-medium text-center">
+    //                 {cat.name}
+    //               </span>
+    //             </div>
+    //         </Link>
+
+    //           {/* Dropdown לילדים */}
+    //           {children.length > 0 && openCatId === cat.id && (
+    //             <ul
+    //               className="
+    //                 absolute top-full mt-2 right-0
+    //                 bg-white shadow-lg rounded-xl
+    //                 border border-green-100
+    //                 min-w-[170px] z-20 overflow-hidden
+    //               "
+    //             >
+    //               {children.map((sub) => (
+    //                 <li key={sub.id}>
+    //                   <Link
+    //                     href={`/home/${sub.slug}`}                      
+    //                     className="
+    //                       block px-4 py-2
+    //                       text-green-700
+    //                       hover:bg-green-50 hover:text-green-900
+    //                       transition-colors
+    //                     "
+    //                   >
+    //                     {sub.name}
+    //                   </Link>
+    //                 </li>
+    //               ))}
+    //             </ul>
+    //           )}
+    //         </li>
+    //       );
+    //     })}
+    //   </ul>
+    // </nav>
   );
 }
 
